@@ -71,10 +71,10 @@ void start_console_mode()
             break;
         case 1:
             // REMOVE
-	    if(handler.remove(command[1]) < 0)
-	    {
-		std::cout << "Configuration could not be found" << std::endl;
-	    }
+            if(handler.remove(command[1]) < 0)
+            {
+                std::cout << "Configuration could not be found" << std::endl;
+            }
             break;
         case 0:
             // ADD
