@@ -12,7 +12,7 @@ void JsonHandler::read_from_file()
 
 void JsonHandler::add(std::string ext, std::string path)
 {
-	tiles.push_back(Tile(ext, path));
+	root["configs"].append(Tile(ext, path));
 }
 
 int JsonHandler::remove(std::string ext)

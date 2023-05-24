@@ -18,7 +18,7 @@ struct Tile
 class JsonHandler
 {
 private:
-	std::vector<Tile> tiles;
+	Json::Value root;
 	int contains(std::string ext);
 public:
 	void write_to_file();
