@@ -1,6 +1,6 @@
 #ifndef _JSON_HANDLER_H_
 #define _JSON_HANDLER_H_
-#include "json.h"
+#include "json/json.h"
 #include <string>
 #include <vector>
 
@@ -18,15 +18,14 @@ struct Tile
 class JsonHandler
 {
 private:
-	Json::Value root;
+	Json::Value root = Json::objectValue;
 	int contains(std::string ext);
 public:
 	void write_to_file();
 	void read_from_file();
 	void add(std::string ext, std::string path);
 	int remove(std::string ext);
-	std::vector<Tile> get_configs();
-
+	Json::Value get_configs();
 };
 
 #endif

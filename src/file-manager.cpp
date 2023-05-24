@@ -68,14 +68,6 @@ void start_console_mode()
             break;
         case 2:
             // SHOW
-	    std::vector<Tile> tiles = handler.get_configs();
-	    if(tiles.empty())
-            {
-		std::cout << "No configurations set!" << std::endl;
-		break;
-	    }
-	    for(int i = 0; i < tiles.size(); ++i)
-		std::cout << tiles[i].ext << " => " << tiles[i].path << std::endl;
             break;
         case 1:
             // REMOVE
