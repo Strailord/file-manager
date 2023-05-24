@@ -4,6 +4,7 @@
 #include <getopt.h>
 #include <boost/tokenizer.hpp>  // BOOST-LIBRARY
 #include "file-manager.h"
+#include "jsonhandler.h"
 
 int get_command(const std::string str)
 {
@@ -39,6 +40,7 @@ void print_help()
 
 void start_console_mode()
 {
+    JsonHandler handler;
     std::cout << "\nCONSOLE CONFIG:\n" << std::endl;
     int run = 1;
 
@@ -66,20 +68,36 @@ void start_console_mode()
             break;
         case 2:
             // SHOW
+	    std::vector<Tile> tiles = handler.get_configs();
+	    if(tiles.empty())
+            {
+		std::cout << "No configurations set!" << std::endl;
+		break;
+	    }
+	    for(int i = 0; i < tiles.size(); ++i)
+		std::cout << tiles[i].ext << " => " << tiles[i].path << std::endl;
             break;
         case 1:
             // REMOVE
+	    if(handler.remove(command[1]) < 0)
+	    {
+		std::cout << "Configuration could not be found" << std::endl;
+	    }
             break;
         case 0:
             // ADD
-            break;            
+	    if(command[3] == "TO")
+	    	handler.add(command[1], command[3]);
+	    else
+		std::cout << "Invalid command!" << std::endl;
+	    break;            
         case -1:
             // QUIT
             run = 0;
             break;
         case -2:
             // FALSE INPUT
-            std::cout << "You dump piece of shit, insert a correct command !!" << std::endl;
+            std::cout << "You dumb piece of shit, insert a correct command !!" << std::endl;
             break;
         }    
         command.clear();
