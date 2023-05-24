@@ -25,6 +25,7 @@ int JsonHandler::remove(std::string ext)
 		return -1;
 	tiles.erase(tiles.begin() + index);
 	*/
+	return 1;
 }
 
 Json::Value JsonHandler::get_configs()

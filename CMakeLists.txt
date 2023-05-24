@@ -3,6 +3,5 @@ project(file-manager)
 
 
 include_directories(include)
-link_directories(lib_jśon)
 file(GLOB SOURCES src/*.cpp)
 add_executable(file-manager ${SOURCES})
