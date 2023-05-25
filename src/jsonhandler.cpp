@@ -16,7 +16,7 @@ void JsonHandler::read_from_file()
 // ADD ext TO root WITH path
 void JsonHandler::add(std::string ext, std::string path)
 {
-	// ADD Json::Value HERE
+	// ADD MEMBER
 	root[ext] = path;
 }
 
