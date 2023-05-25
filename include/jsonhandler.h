@@ -18,13 +18,14 @@ struct Tile
 class JsonHandler
 {
 private:
-	Json::Value root = Json::objectValue;
+	Json::Value root;
 	int contains(std::string ext);
 public:
 	void write_to_file();
 	void read_from_file();
 	void add(std::string ext, std::string path);
 	int remove(std::string ext);
+	void print_show();
 	Json::Value get_configs();
 };
 

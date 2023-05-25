@@ -6,6 +6,7 @@
 #include "file-manager.h"
 #include "jsonhandler.h"
 
+// CONVERT COMMAND INTO INTEGER
 int get_command(const std::string str)
 {
 
@@ -23,6 +24,7 @@ int get_command(const std::string str)
         return COMMANDS::ERROR;
 }
 
+// PRINT HELP MENU
 void print_help()
 {
     std::cout << "\nFile-Manager v0.1" << std::endl;
@@ -46,12 +48,13 @@ void start_console_mode()
 
     while(run)
     {
-        
+        // GET COMMAND
         std::string line = "";
         std::vector<std::string> command;
         std::cout << ">>> ";
         std::getline(std::cin, line);
-        
+       
+	// SPLIT COMMAND INTO WORDS
         boost::tokenizer<> tok(line);
         for (boost::tokenizer<>::iterator iter = tok.begin(); iter != tok.end(); ++iter)
             command.push_back(*iter);
@@ -68,6 +71,7 @@ void start_console_mode()
             break;
         case 2:
             // SHOW
+	    handler.print_show();
             break;
         case 1:
             // REMOVE
@@ -78,7 +82,7 @@ void start_console_mode()
             break;
         case 0:
             // ADD
-	    if(command[3] == "TO")
+	    if(command[2] == "TO")
 	    	handler.add(command[1], command[3]);
 	    else
 		std::cout << "Invalid command!" << std::endl;
@@ -103,20 +107,25 @@ void write_config();
 
 int main(int argc, char* argv[])
 {
+    if(argc == 1)
+    {
+	    // CREATE CALL OF clean() HERE -- CREATE FUNCTION clean() --
+	    return 0;
+    }
+
     int c;
     while((c = getopt(argc, argv, ":hcm")) != -1)
     {
         switch (c)
         {
         case 'h':
+	    // PRINT THE HELP PAGE
             print_help();
             return 0;
         case 'c':
+	    // START CONSOLE CONFIGURATION MODE
             start_console_mode();
             return 0;
-        case 'm':
-            //std::cout<< (char)c << std::endl;
-            break;
         }
     }
 
