@@ -6,6 +6,7 @@
 #include "file-manager.h"
 #include "jsonhandler.h"
 
+// CONVERT COMMAND INTO INTEGER
 int get_command(const std::string str)
 {
 
@@ -19,10 +20,15 @@ int get_command(const std::string str)
         return COMMANDS::HELP;
     else if(str == "REMOVE")
         return COMMANDS::REMOVE;
+    else if(str == "LOAD")
+        return COMMANDS::LOAD;
+    else if(str == "SAVE")
+        return COMMANDS::SAVE;
     else
         return COMMANDS::ERROR;
 }
 
+// PRINT HELP MENU
 void print_help()
 {
     std::cout << "\nFile-Manager v0.1" << std::endl;
@@ -34,6 +40,9 @@ void print_help()
     std::cout << "\tADD <ext> TO <dest_path> : Add the configuration for <ext> to the path <dest_path>" << std::endl;
     std::cout << "\tREMOVE <ext> : Remove the configuration for <ext>" << std::endl;
     std::cout << "\tSHOW : Prints out the current configurations" << std::endl;
+    std::cout << "\tLOAD <path>: Loads the configuration from the config file at <path>" << std::endl;
+    std::cout << "\tSAVE <path>: Saves the current configuration to path, if no path is given, the current directory is used" << std::endl; 
+    std::cout << "\tCONFIG <path>: Sets the path to the config file" << std::endl;
     std::cout << "\tHELP : Prints out the helptext" << std::endl;
     std::cout << "\tQUIT : Quit the configuration and save the changes\n" << std::endl;
 }
@@ -46,28 +55,41 @@ void start_console_mode()
 
     while(run)
     {
-        
+        // GET COMMAND
         std::string line = "";
         std::vector<std::string> command;
         std::cout << ">>> ";
         std::getline(std::cin, line);
-        
+       
+	// SPLIT COMMAND INTO WORDS
         boost::tokenizer<> tok(line);
         for (boost::tokenizer<>::iterator iter = tok.begin(); iter != tok.end(); ++iter)
             command.push_back(*iter);
         
         switch (get_command(command[0]))
         {
+        case 5:
+            // LOAD CONFIG 
+            handler.load_config();
+            break;
+        case 4:
+            // SAVE CONFIG
+            handler.save_config();
+            break;
         case 3:
             // HELP
             std::cout << "\tADD <ext> TO <dest_path> : Add the configuration for <ext> to the path <dest_path>" << std::endl;
             std::cout << "\tREMOVE <ext> : Remove the configuration for <ext>" << std::endl;
             std::cout << "\tSHOW : Prints out the current configurations" << std::endl;
+            std::cout << "\tLOAD <path>: Loads the configuration from the config file at <path>" << std::endl;
+            std::cout << "\tSAVE <path>: Saves the current configuration to path, if no path is given, the current directory is used" << std::endl; 
+            std::cout << "\tCONFIG <path>: Sets the path to the config file" << std::endl;
             std::cout << "\tHELP : Prints out the helptext" << std::endl;
             std::cout << "\tQUIT : Quit the configuration and save the changes" << std::endl;
             break;
         case 2:
             // SHOW
+	        handler.print_show();
             break;
         case 1:
             // REMOVE
@@ -78,11 +100,11 @@ void start_console_mode()
             break;
         case 0:
             // ADD
-	    if(command[3] == "TO")
-	    	handler.add(command[1], command[3]);
-	    else
-		std::cout << "Invalid command!" << std::endl;
-	    break;            
+            if(command[2] == "TO")
+                handler.add(command[1], command[3]);
+            else
+            std::cout << "Invalid command!" << std::endl;
+            break;            
         case -1:
             // QUIT
             run = 0;
@@ -103,20 +125,25 @@ void write_config();
 
 int main(int argc, char* argv[])
 {
+    if(argc == 1)
+    {
+	    // CREATE CALL OF clean() HERE -- CREATE FUNCTION clean() --
+	    return 0;
+    }
+
     int c;
     while((c = getopt(argc, argv, ":hcm")) != -1)
     {
         switch (c)
         {
         case 'h':
+	    // PRINT THE HELP PAGE
             print_help();
             return 0;
         case 'c':
+	    // START CONSOLE CONFIGURATION MODE
             start_console_mode();
             return 0;
-        case 'm':
-            //std::cout<< (char)c << std::endl;
-            break;
         }
     }
 
