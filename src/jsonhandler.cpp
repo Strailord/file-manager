@@ -1,16 +1,45 @@
 #include "jsonhandler.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
+#include <experimental/filesystem>
 
-void JsonHandler::write_to_file()
+// SAVE THE CONFIG TO A FILE
+void JsonHandler::save_config()
 {
+	std::ofstream conf(config_path/"file_manager_config.conf");
 
+	if(conf.is_open())
+	{
+		Json::StreamWriterBuilder builder;
+		conf << Json::writeString(builder, root);
+	}
+	else
+	{
+		std::cout << "Could not save the configs" << std::endl;
+	}
+
+	conf.close();
 }
 
-void JsonHandler::read_from_file()
+// LOAD CONFIG FROM FILE
+void JsonHandler::load_config()
 {
+	std::ifstream conf(config_path/"file_manager_config.conf");
+	Json::CharReaderBuilder builder;
+	Json::String error;
+	if(!Json::parseFromStream(builder, conf, &root, &error))
+	{
+		std::cout << "Could not load Configfile" << std::endl;
+	}
+	conf.close();
+}
 
+// SET THE PATH TO A CONFIGFILE
+void JsonHandler::set_config(std::experimental::filesystem::path path)
+{
+	config_path = path;
 }
 
 // ADD ext TO root WITH path

@@ -1,7 +1,10 @@
-cmake_minimum_required(VERSION 3.20)
-project(file-manager)
+cmake_minimum_required(VERSION 3.16)
+project(file-manager VERSION 0.0.5)
 
+set(CXX_STANDARD 20)
+set(CXX_STANDARD_REQUIRED 20)
 
+link_libraries(stdc++fs)
 include_directories(include)
 file(GLOB SOURCES src/*.cpp)
 add_executable(file-manager ${SOURCES})

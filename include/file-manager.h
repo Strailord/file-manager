@@ -15,7 +15,9 @@ enum COMMANDS
     ADD = 0,
     REMOVE = 1,
     SHOW = 2,
-    HELP = 3
+    HELP = 3,
+    SAVE = 4,
+    LOAD = 5
 };
 
 void print_help();
