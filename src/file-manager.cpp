@@ -24,6 +24,10 @@ int get_command(const std::string str)
         return COMMANDS::LOAD;
     else if(str == "SAVE")
         return COMMANDS::SAVE;
+    else if(str == "CLEAN")
+        return COMMANDS::CLEAN;
+    else if(str == "CLEAR")
+        return COMMANDS::CLEAR;
     else
         return COMMANDS::ERROR;
 }
@@ -33,23 +37,25 @@ void print_help()
 {
     std::cout << "\nFile-Manager v0.1" << std::endl;
     std::cout << "\nfile-manager <options>" << std::endl;
-    std::cout << "Options:\n\t-h : Print help menu" << std::endl;
+    std::cout << "\nNote:" << std::endl;
+    std::cout << "\tIf no option is given, the current directory will be cleaned" << std::endl;
+    std::cout << "\nOptions:\n\t-h : Print help menu" << std::endl;
     std::cout << "\t-c : Start console-configuration mode" << std::endl;
-    std::cout << "\t-m : Move the files according to their configuration, if no configuration exists for the file, the file will be skipped" << std::endl;
     std::cout << "\nConsole Configuration Commands:" << std::endl;
+    std::cout << "\tCLEAN: The currend directory gets cleaned" << std::endl;
+    std::cout << "\tCLEAR: Clear the current screen" << std::endl;
     std::cout << "\tADD <ext> TO <dest_path> : Add the configuration for <ext> to the path <dest_path>" << std::endl;
     std::cout << "\tREMOVE <ext> : Remove the configuration for <ext>" << std::endl;
     std::cout << "\tSHOW : Prints out the current configurations" << std::endl;
     std::cout << "\tLOAD <path>: Loads the configuration from the config file at <path>" << std::endl;
     std::cout << "\tSAVE <path>: Saves the current configuration to path, if no path is given, the current directory is used" << std::endl; 
-    std::cout << "\tCONFIG <path>: Sets the path to the config file" << std::endl;
+    std::cout << "\tCONFIG <path>: Sets the path to the directory of the config file" << std::endl;
     std::cout << "\tHELP : Prints out the helptext" << std::endl;
     std::cout << "\tQUIT : Quit the configuration and save the changes\n" << std::endl;
 }
 
-void start_console_mode()
+void start_console_mode(JsonHandler &handler)
 {
-    JsonHandler handler;
     std::cout << "\nCONSOLE CONFIG:\n" << std::endl;
     int run = 1;
 
@@ -68,6 +74,13 @@ void start_console_mode()
         
         switch (get_command(command[0]))
         {
+        case 7:
+            system("cls || clear");
+            std::cout << "\nCONSOLE CONFIG:\n" << std::endl;
+            break;
+        case 6:
+            handler.clean();
+            break;
         case 5:
             // LOAD CONFIG 
             handler.load_config();
@@ -78,12 +91,14 @@ void start_console_mode()
             break;
         case 3:
             // HELP
+            std::cout << "\tCLEAN: The currend directory gets cleaned" << std::endl;
+            std::cout << "\tCLEAR: Clear the current screen" << std::endl;
             std::cout << "\tADD <ext> TO <dest_path> : Add the configuration for <ext> to the path <dest_path>" << std::endl;
             std::cout << "\tREMOVE <ext> : Remove the configuration for <ext>" << std::endl;
             std::cout << "\tSHOW : Prints out the current configurations" << std::endl;
             std::cout << "\tLOAD <path>: Loads the configuration from the config file at <path>" << std::endl;
             std::cout << "\tSAVE <path>: Saves the current configuration to path, if no path is given, the current directory is used" << std::endl; 
-            std::cout << "\tCONFIG <path>: Sets the path to the config file" << std::endl;
+            std::cout << "\tCONFIG <path>: Sets the path to the directory of the config file" << std::endl;
             std::cout << "\tHELP : Prints out the helptext" << std::endl;
             std::cout << "\tQUIT : Quit the configuration and save the changes" << std::endl;
             break;
@@ -108,10 +123,11 @@ void start_console_mode()
         case -1:
             // QUIT
             run = 0;
+            handler.save_config();
             break;
         case -2:
             // FALSE INPUT
-            std::cout << "You dumb piece of shit, insert a correct command !!" << std::endl;
+            std::cout << "No valid command!" << std::endl;
             break;
         }    
         command.clear();
@@ -125,14 +141,16 @@ void write_config();
 
 int main(int argc, char* argv[])
 {
+    JsonHandler handler;
+    handler.load_config();
     if(argc == 1)
     {
-	    // CREATE CALL OF clean() HERE -- CREATE FUNCTION clean() --
+	    handler.clean();
 	    return 0;
     }
 
     int c;
-    while((c = getopt(argc, argv, ":hcm")) != -1)
+    while((c = getopt(argc, argv, ":hc")) != -1)
     {
         switch (c)
         {
@@ -142,7 +160,7 @@ int main(int argc, char* argv[])
             return 0;
         case 'c':
 	    // START CONSOLE CONFIGURATION MODE
-            start_console_mode();
+            start_console_mode(handler);
             return 0;
         }
     }

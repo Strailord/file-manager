@@ -1,9 +1,33 @@
-#include "jsonhandler.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <experimental/filesystem>
+#include "jsonhandler.h"
+
+// CLEAN THE CURRENT DIRECTORY
+void JsonHandler::clean()
+{
+	bool got_cleaned = false;
+	JsonHandler::load_config();
+	std::vector<std::string> members = root.getMemberNames();		
+	for (auto const& dir_entry : std::experimental::filesystem::directory_iterator{"."}) 
+    {
+        std::string extension = dir_entry.path().extension();
+		if(JsonHandler::contains(extension, members))
+		{
+			// CHECK IF SPECIFIED DIR EXISTS
+			if(!std::experimental::filesystem::exists(root[extension].asString()))
+				std::experimental::filesystem::create_directory(root[extension].asString());
+			std::experimental::filesystem::copy(dir_entry.path(), root[extension].asString() / dir_entry.path());
+			std::experimental::filesystem::remove(dir_entry.path());
+			got_cleaned = true;
+		}
+	}
+	if(got_cleaned)
+		std::cout << "CLEANED CURRENT DIRECTORY" << std::endl;
+}
 
 // SAVE THE CONFIG TO A FILE
 void JsonHandler::save_config()
@@ -46,7 +70,7 @@ void JsonHandler::set_config(std::experimental::filesystem::path path)
 void JsonHandler::add(std::string ext, std::string path)
 {
 	// ADD MEMBER
-	root[ext] = path;
+	root["." + ext] = path;
 }
 
 // REMOVE ext FROM root
@@ -57,10 +81,10 @@ int JsonHandler::remove(std::string ext = "")
 		return -1;
 	
 	// CHECK IF root HAS MEMEBER ext
-	if(root.isMember(ext))
+	if(root.isMember("." + ext))
 	{
 		// root HAS MEMBER ext AND DELETEDS IT
-		root.removeMember(ext);
+		root.removeMember("." + ext);
 		std::cout << "DELETED " << ext << std::endl;
 		return 1;
 	}
@@ -81,7 +105,9 @@ void JsonHandler::print_show()
 		std::cout << members[i] << " : " << root[members[i]] << std::endl;
 }
 
-Json::Value JsonHandler::get_configs()
+bool JsonHandler::contains(std::string ext, std::vector<std::string> &members)
 {
-	return root;
+	if(std::find(members.begin(), members.end(), ext) != members.end())
+		return true;
+	return false;
 }
