@@ -41,7 +41,6 @@ void print_help()
     std::cout << "\tIf no option is given, the current directory will be cleaned" << std::endl;
     std::cout << "\nOptions:\n\t-h : Print help menu" << std::endl;
     std::cout << "\t-c : Start console-configuration mode" << std::endl;
-    std::cout << "\t-m : Move the files according to their configuration, if no configuration exists for the file, the file will be skipped" << std::endl;
     std::cout << "\nConsole Configuration Commands:" << std::endl;
     std::cout << "\tCLEAN: The currend directory gets cleaned" << std::endl;
     std::cout << "\tCLEAR: Clear the current screen" << std::endl;
@@ -124,6 +123,7 @@ void start_console_mode(JsonHandler &handler)
         case -1:
             // QUIT
             run = 0;
+            handler.save_config();
             break;
         case -2:
             // FALSE INPUT
@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
     }
 
     int c;
-    while((c = getopt(argc, argv, ":hcm")) != -1)
+    while((c = getopt(argc, argv, ":hc")) != -1)
     {
         switch (c)
         {
