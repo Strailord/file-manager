@@ -1,3 +1,4 @@
+@echo off
 if not exist build do mkdir build 
 cd build
 cmake .. -G "MinGW Makefiles"
