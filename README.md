@@ -38,4 +38,4 @@ Flags:
 
 ## Tips
 
-To use this tool as a command in terminal add the directory of the build program to PATH variable.
+Add the directory of the binary to your PATH variable to use it as console-command.
