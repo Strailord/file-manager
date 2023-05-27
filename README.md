@@ -16,12 +16,16 @@ A small file-manager to clean messy directories
 2. Go to the project-directory and execute build.sh
 3. You'll find the build project in the build directory
 
-## Commandline Arguments
+## Syntax
 
-No Arguments: 
+file-manager <option>
+
+## Commandline options:
+
+No Arguments:\
 Current directory will be cleaned with the configuration of used file_manager_config.conf. If no configuration exists nothing will happen.
 
-Flags:\
+Options:\
 -h : Print the help menu\
 -c : Enter the commandline configuration
 
