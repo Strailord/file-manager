@@ -21,8 +21,8 @@ A small file-manager to clean messy directories
 No Arguments: 
 Current directory will be cleaned with the configuration of used file_manager_config.conf. If no configuration exists nothing will happen.
 
-Flags:
--h : Print the help menu
+Flags:\
+-h : Print the help menu\
 -c : Enter the commandline configuration
 
 ## Commandline configuration
