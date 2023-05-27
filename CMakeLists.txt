@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(file-manager VERSION 0.0.5)
+project(file-manager)
 
 set(CXX_STANDARD 20)
 set(CXX_STANDARD_REQUIRED 20)
