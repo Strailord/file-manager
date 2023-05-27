@@ -18,7 +18,7 @@ A small file-manager to clean messy directories
 
 ## Syntax
 
-file-manager <OPTION>
+file-manager <OPTIONS>
 
 ## Commandline options:
 
