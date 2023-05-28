@@ -44,8 +44,8 @@ void print_help()
     std::cout << "\nConsole Configuration Commands:" << std::endl;
     std::cout << "\tCLEAN: The currend directory gets cleaned" << std::endl;
     std::cout << "\tCLEAR: Clear the current screen" << std::endl;
-    std::cout << "\tADD <ext> TO <dest_path> : Add the configuration for <ext> to the path <dest_path>" << std::endl;
-    std::cout << "\tREMOVE <ext> : Remove the configuration for <ext>" << std::endl;
+    std::cout << "\tADD <ext> TO <dest_path> : Add the configuration for <ext> to the path <dest_path>. <ext> without the . in front of it" << std::endl;
+    std::cout << "\tREMOVE <ext> : Remove the configuration for <ext>. <ext> without the . in front of it" << std::endl;
     std::cout << "\tSHOW : Prints out the current configurations" << std::endl;
     std::cout << "\tLOAD <path>: Loads the configuration from the config file at <path>" << std::endl;
     std::cout << "\tSAVE <path>: Saves the current configuration to path, if no path is given, the current directory is used" << std::endl; 
@@ -93,8 +93,8 @@ void start_console_mode(JsonHandler &handler)
             // HELP
             std::cout << "\tCLEAN: The currend directory gets cleaned" << std::endl;
             std::cout << "\tCLEAR: Clear the current screen" << std::endl;
-            std::cout << "\tADD <ext> TO <dest_path> : Add the configuration for <ext> to the path <dest_path>" << std::endl;
-            std::cout << "\tREMOVE <ext> : Remove the configuration for <ext>" << std::endl;
+            std::cout << "\tADD <ext> TO <dest_path> : Add the configuration for <ext> to the path <dest_path>. <ext> without the . in front of it" << std::endl;
+            std::cout << "\tREMOVE <ext> : Remove the configuration for <ext>. <ext> without the . in front of it" << std::endl;
             std::cout << "\tSHOW : Prints out the current configurations" << std::endl;
             std::cout << "\tLOAD <path>: Loads the configuration from the config file at <path>" << std::endl;
             std::cout << "\tSAVE <path>: Saves the current configuration to path, if no path is given, the current directory is used" << std::endl; 

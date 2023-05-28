@@ -40,6 +40,13 @@ Options:\
 - CLEAN : Clean the current working directory with the current configuration
 - QUIT : Quit the configuration terminal. Current configuration will be saved to file_manager_config.conf in current working directory
 
+### Examples
+
+- ADD pdf TO pdf_directory
+- REMOVE pdf
+- LOAD path_of_config
+- SAVe path_of_config
+
 ## Tips
 
 Add the directory of the binary to your PATH variable to use it as console-command.
