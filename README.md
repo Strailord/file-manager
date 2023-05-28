@@ -45,7 +45,7 @@ Options:\
 - ADD pdf TO pdf_directory
 - REMOVE pdf
 - LOAD path_of_config
-- SAVe path_of_config
+- SAVE path_of_config
 
 ## Tips
 
