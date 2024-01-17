@@ -1,6 +1,7 @@
 #ifndef _FILE_MANAGER_H_
 #define _file_manager_H_
 #include <string>
+#include <map>
 
 struct config_tile
 {
@@ -8,18 +9,16 @@ struct config_tile
     char* path = nullptr;
 };
 
-enum COMMANDS 
-{
-    ERROR = -2,
-    QUIT = -1,
-    ADD = 0,
-    REMOVE = 1,
-    SHOW = 2,
-    HELP = 3,
-    SAVE = 4,
-    LOAD = 5,
-    CLEAN = 6,
-    CLEAR = 7
+std::map<const std::string, int> INPUT = {
+    {"QUIT", 0},
+    {"ADD", 1},
+    {"SHOW", 2},
+    {"HELP", 3},
+    {"REMOVE", 4},
+    {"LOAD", 5},
+    {"SAVE", 6},
+    {"CLEAN", 7},
+    {"CLEAR", 8}
 };
 
 void print_help();

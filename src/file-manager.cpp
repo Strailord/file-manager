@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include <getopt.h>
-#include <boost/tokenizer.hpp>  // BOOST-LIBRARY
 #include "file-manager.h"
 #include "jsonhandler.h"
 
@@ -10,26 +9,29 @@
 int get_command(const std::string str)
 {
 
-    if(str == "QUIT")
-        return COMMANDS::QUIT;
-    else if(str == "ADD")
-        return COMMANDS::ADD;
-    else if(str == "SHOW")
-        return COMMANDS::SHOW;
-    else if(str == "HELP")
-        return COMMANDS::HELP;
-    else if(str == "REMOVE")
-        return COMMANDS::REMOVE;
-    else if(str == "LOAD")
-        return COMMANDS::LOAD;
-    else if(str == "SAVE")
-        return COMMANDS::SAVE;
-    else if(str == "CLEAN")
-        return COMMANDS::CLEAN;
-    else if(str == "CLEAR")
-        return COMMANDS::CLEAR;
-    else
-        return COMMANDS::ERROR;
+    switch(INPUT[str]) {
+    case 0:
+        return 0;
+    case 1:
+        return 1;
+    case 2:
+        return 2;
+    case 3:
+        return 3;
+    case 4:
+        return 4;
+    case 5:
+        return 5;
+    case 6:
+        return 6;
+    case 7:
+        return 7;
+    case 8:
+        return 8;
+    default:
+        return -1;
+    }
+
 }
 
 // PRINT HELP MENU
@@ -68,24 +70,27 @@ void start_console_mode(JsonHandler &handler)
         std::getline(std::cin, line);
        
 	// SPLIT COMMAND INTO WORDS
-        boost::tokenizer<> tok(line);
-        for (boost::tokenizer<>::iterator iter = tok.begin(); iter != tok.end(); ++iter)
-            command.push_back(*iter);
-        
+        char* token = std::strtok(line.data(), " ");
+        while(token != NULL)
+        {
+            command.push_back(token);
+            token = std::strtok(NULL, " ");
+        }
+
         switch (get_command(command[0]))
         {
-        case 7:
+        case 8:
             system("cls || clear");
             std::cout << "\nCONSOLE CONFIG:\n" << std::endl;
             break;
-        case 6:
+        case 7:
             handler.clean();
             break;
         case 5:
             // LOAD CONFIG 
             handler.load_config();
             break;
-        case 4:
+        case 6:
             // SAVE CONFIG
             handler.save_config();
             break;
@@ -106,26 +111,26 @@ void start_console_mode(JsonHandler &handler)
             // SHOW
 	        handler.print_show();
             break;
-        case 1:
+        case 4:
             // REMOVE
             if(handler.remove(command[1]) < 0)
             {
                 std::cout << "Configuration could not be found" << std::endl;
             }
             break;
-        case 0:
+        case 1:
             // ADD
             if(command[2] == "TO")
                 handler.add(command[1], command[3]);
             else
             std::cout << "Invalid command!" << std::endl;
             break;            
-        case -1:
+        case 0:
             // QUIT
             run = 0;
             handler.save_config();
             break;
-        case -2:
+        case -1:
             // FALSE INPUT
             std::cout << "No valid command!" << std::endl;
             break;
