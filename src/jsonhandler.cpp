@@ -3,7 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
-#include <experimental/filesystem>
+#include <filesystem>
 #include "jsonhandler.h"
 
 // CLEAN THE CURRENT DIRECTORY
@@ -12,16 +12,16 @@ void JsonHandler::clean()
 	bool got_cleaned = false;
 	JsonHandler::load_config();
 	std::vector<std::string> members = root.getMemberNames();		
-	for (auto const& dir_entry : std::experimental::filesystem::directory_iterator{"."}) 
+	for (auto const& dir_entry : std::filesystem::directory_iterator{"."}) 
     {
         std::string extension = dir_entry.path().extension();
 		if(JsonHandler::contains(extension, members))
 		{
 			// CHECK IF SPECIFIED DIR EXISTS
-			if(!std::experimental::filesystem::exists(root[extension].asString()))
-				std::experimental::filesystem::create_directory(root[extension].asString());
-			std::experimental::filesystem::copy(dir_entry.path(), root[extension].asString() / dir_entry.path());
-			std::experimental::filesystem::remove(dir_entry.path());
+			if(!std::filesystem::exists(root[extension].asString()))
+				std::filesystem::create_directory(root[extension].asString());
+			std::filesystem::copy(dir_entry.path(), root[extension].asString() / dir_entry.path());
+			std::filesystem::remove(dir_entry.path());
 			got_cleaned = true;
 		}
 	}
@@ -61,7 +61,7 @@ void JsonHandler::load_config()
 }
 
 // SET THE PATH TO A CONFIGFILE
-void JsonHandler::set_config(std::experimental::filesystem::path path)
+void JsonHandler::set_config(std::filesystem::path path)
 {
 	config_path = path;
 }
